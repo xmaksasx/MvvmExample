@@ -13,11 +13,55 @@
 	<Window.DataContext>
 		<vm:MainWindowViewModel />
 	</Window.DataContext>
-	<Grid>
-		<TextBox
-			Width="300"
-			Height="20"
-			Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
-
-	</Grid>
+	<DockPanel>
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="Файл">
+				<MenuItem Header="Выход" />
+			</MenuItem>
+			<MenuItem Header="Помощь">
+				<MenuItem Header="О программе" />
+			</MenuItem>
+		</Menu>
+		<StatusBar DockPanel.Dock="Bottom">
+			<StatusBarItem>
+				<TextBlock Text="1234" />
+			</StatusBarItem>
+			<StatusBarItem>
+				<ProgressBar
+					Width="120"
+					Height="14"
+					Value="30" />
+			</StatusBarItem>
+		</StatusBar>
+		<TabControl>
+			<TabItem Header="Вкладка 1">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="68*" />
+						<ColumnDefinition Width="325*" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="47*" />
+						<RowDefinition Height="326*" />
+					</Grid.RowDefinitions>
+					<Rectangle
+						Grid.Row="0"
+						Grid.Column="0"
+						Margin="5"
+						Fill="Blue"
+						RadiusX="5"
+						RadiusY="20"
+						Stroke="Red"
+						StrokeThickness="3" />
+					<Ellipse
+						Grid.Row="0"
+						Grid.Column="1"
+						Fill="Red"
+						Stroke="Blue"
+						StrokeThickness="3" />
+				</Grid>
+			</TabItem>
+			<TabItem Header="Вкладка 2" />
+		</TabControl>
+	</DockPanel>
 </Window>
