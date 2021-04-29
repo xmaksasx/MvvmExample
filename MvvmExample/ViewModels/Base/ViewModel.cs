@@ -1,11 +1,25 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace MvvmExample.ViewModels.Base
 {
-	internal abstract class ViewModel : INotifyPropertyChanged
+	internal abstract class ViewModel : INotifyPropertyChanged , IDisposable
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		public void Dispose()
+		{
+			Dispose(true);
+		}
+
+		private bool _disposed;
+		protected virtual void Dispose(bool disposing)
+		{
+			if (_disposed || disposing) return;
+			_disposed = true;
+			//Освобождение управляемых ресурсов
+		}
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
