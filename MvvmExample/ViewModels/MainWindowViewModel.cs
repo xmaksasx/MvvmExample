@@ -1,4 +1,8 @@
-﻿using MvvmExample.ViewModels.Base;
+﻿using System.Net.Mime;
+using System.Windows;
+using System.Windows.Input;
+using MvvmExample.Infrastructure.Commands;
+using MvvmExample.ViewModels.Base;
 
 namespace MvvmExample.ViewModels
 {
@@ -41,5 +45,29 @@ namespace MvvmExample.ViewModels
 		}
 
 		#endregion
+
+		#region Команды
+
+		#region CloseAppCommand
+		public ICommand CloseAppCommand { get; set; }
+
+		private bool CanCloseAppCommandExecute(object p) => true;
+
+		private void OnCloseAppCommandExecuted(object p)
+		{
+			Application.Current.Shutdown();
+		} 
+		#endregion
+
+
+
+		#endregion
+
+		public MainWindowViewModel()
+		{
+			#region Команды
+			CloseAppCommand = new LambdaCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
+			#endregion
+		}
 	}
 }
