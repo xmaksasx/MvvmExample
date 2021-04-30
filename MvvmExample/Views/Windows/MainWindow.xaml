@@ -6,7 +6,9 @@
 	xmlns:local="clr-namespace:MvvmExample"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="clr-namespace:MvvmExample.ViewModels"
+	xmlns:cmd="clr-namespace:MvvmExample.Infrastructure.Commands"
 	Title="{Binding Title}"
+
 	Width="800"
 	Height="450"
 	mc:Ignorable="d">
@@ -16,7 +18,12 @@
 	<DockPanel>
 		<Menu DockPanel.Dock="Top">
 			<MenuItem Header="Файл">
-				<MenuItem Header="Выход" Command="{Binding CloseAppCommand}" />
+				<!--<MenuItem Header="Выход" Command="{Binding CloseAppCommand}" />-->
+				<MenuItem Header="Выход">
+					<MenuItem.Command>
+						<cmd:CloseAppCommand/>
+					</MenuItem.Command>
+				</MenuItem>
 			</MenuItem>
 			<MenuItem Header="Помощь">
 				<MenuItem Header="О программе" />
