@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Globalization;
 using System.IO;
@@ -32,7 +33,7 @@ namespace MvvmConsole
 			{
 				var line =  data_reader.ReadLine();
 				if (string.IsNullOrWhiteSpace(line)) continue;
-				yield return line;
+				yield return line.Replace("Korea,", "Korea - ");
 
 			}
 		}
@@ -44,6 +45,23 @@ namespace MvvmConsole
 			.Select(s => DateTime.Parse(s, CultureInfo.InvariantCulture))
 			.ToArray();
 
+		private static IEnumerable<(string Contry, string Provinve, int[] Counts)> GetData()
+		{
+			var lines = GetDataLines()
+				.Skip(1)
+				.Select(s=>s.Split(','));
+
+			foreach (var row in  lines)
+			{
+				var province = row[0].Trim();
+				var contry_name = row[1].Trim(' ', '"');
+				var counts = row.Skip(5).Select(int.Parse).ToArray();
+				yield return (contry_name, province, counts);
+			}
+
+
+
+		}
 
 
 		static void Main(string[] args)
@@ -54,10 +72,13 @@ namespace MvvmConsole
 			//var result = client.GetAsync(DataUrl).Result;
 			//var csv = result.Content.ReadAsStringAsync().Result;
 
-			var dates = getDateTimes();
+			//var dates = getDateTimes();
 
-				Console.WriteLine(string.Join("\r\n", dates));
-			
+			//Console.WriteLine(string.Join("\r\n", dates));
+
+
+			var russia = GetData().First(v => v.Contry.Equals("Russia", StringComparison.OrdinalIgnoreCase));
+			Console.WriteLine(string.Join("\r\n", getDateTimes().Zip(russia.Counts,(date, count)=> $"{date:dd:MM} - {count}")));
 			Console.ReadLine();
 		}
 
