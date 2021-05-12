@@ -12,6 +12,17 @@ namespace MvvmExample.ViewModels
 	internal class MainWindowViewModel : ViewModel
 	{
 
+		#region номер выбранной вкладки
+
+		/// <summary>номер выбранной вкладки</summary>
+		private int _selectedPageIndex;
+
+		/// <summary>номер выбранной вкладки</summary>
+		public int SelectedPageIndex { get => _selectedPageIndex; set => Set(ref _selectedPageIndex, value); }
+
+		#endregion
+
+
 
 		#region TestDataPoint
 
@@ -45,14 +56,14 @@ namespace MvvmExample.ViewModels
 
 		#endregion
 
-		#region Заголовок окна 
+		#region Статус программы
 		/// <summary>Статус программы</summary>
 		private string _status = "Готов!";
 
 		/// <summary>Статус программы</summary>
 		public string Status
 		{
-			get => _title;
+			get => _status;
 			set => Set(ref _status, value);
 			//set
 			//{
@@ -77,14 +88,22 @@ namespace MvvmExample.ViewModels
 		} 
 		#endregion
 
+		public ICommand ChangeTabIndexCommand { get; }
+		private bool CanChangeTabIndexCommandExecute(object p) => _selectedPageIndex >= 0;
 
+		private void OnChangeTabIndexCommandExecuted(object p)
+		{
+			if (p is null) return;
+			SelectedPageIndex += Convert.ToInt32(p);
 
+		}
 		#endregion
 
 		public MainWindowViewModel()
 		{
 			#region Команды
 			CloseAppCommand = new LambdaCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
+			ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
 			#endregion
 
 			var dataPoints = new List<DataPoint>((int)(360/0.1));
