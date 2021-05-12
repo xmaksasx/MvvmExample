@@ -1,13 +1,31 @@
-﻿using System.Net.Mime;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Mime;
 using System.Windows;
 using System.Windows.Input;
 using MvvmExample.Infrastructure.Commands;
+using MvvmExample.Models;
 using MvvmExample.ViewModels.Base;
 
 namespace MvvmExample.ViewModels
 {
 	internal class MainWindowViewModel : ViewModel
 	{
+
+
+		#region TestDataPoint
+
+		/// <summary>TestDataPoint</summary>
+		private IEnumerable<DataPoint> _testDataPoints;
+
+		/// <summary>TestDataPoint</summary>
+		public IEnumerable<DataPoint> TestDataPoints { get => _testDataPoints; set => Set(ref _testDataPoints, value); }
+
+		#endregion
+
+
+
+
 		#region Заголовок окна 
 		/// <summary>Заголовок окна</summary>
 		private string _title="Анализ данных";
@@ -68,6 +86,16 @@ namespace MvvmExample.ViewModels
 			#region Команды
 			CloseAppCommand = new LambdaCommand(OnCloseAppCommandExecuted, CanCloseAppCommandExecute);
 			#endregion
+
+			var dataPoints = new List<DataPoint>((int)(360/0.1));
+			for (var i = 0.0; i < 360; i+=0.1)
+			{
+				double toRad = Math.PI / 180;
+				var y = Math.Sin(i * toRad);
+				dataPoints.Add(new DataPoint{ XValue = i, YValue = y});
+			}
+
+			TestDataPoints = dataPoints;
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace MvvmConsole
 			}
 		}
 
-		private static DateTime[] getDateTimes() => GetDataLines()
+		private static DateTime[] GetDates() => GetDataLines()
 			.First()
 			.Split(',')
 			.Skip(4)
@@ -78,10 +78,11 @@ namespace MvvmConsole
 
 
 			var russia = GetData().First(v => v.Contry.Equals("Russia", StringComparison.OrdinalIgnoreCase));
-			Console.WriteLine(string.Join("\r\n", getDateTimes().Zip(russia.Counts,(date, count)=> $"{date:dd:MM} - {count}")));
+			Console.WriteLine(string.Join("\r\n", GetDates().Zip(russia.Counts,(date, count)=> $"{date:dd:MM} - {count}")));
 			Console.ReadLine();
 		}
 
 
 	}
 }
+
